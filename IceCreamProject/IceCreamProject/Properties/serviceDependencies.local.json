@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql.local",
+      "connectionId": "IceCreamFlavorsContext"
+    },
+    "mssql2": {
+      "type": "mssql.local",
+      "connectionId": "OrdersContext"
+    },
+    "mssql3": {
+      "type": "mssql.local",
+      "connectionId": "ManagersContext"
+    }
+  }
+}

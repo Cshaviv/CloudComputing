@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace IceCreamProject
 {
@@ -23,6 +24,15 @@ namespace IceCreamProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<IceCreamFlavorsContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("IceCreamFlavorsContext")));
+
+            services.AddDbContext<OrdersContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("OrdersContext")));
+
+            services.AddDbContext<ManagersContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ManagersContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

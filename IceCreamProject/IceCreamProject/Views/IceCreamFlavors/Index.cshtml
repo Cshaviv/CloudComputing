@@ -1,0 +1,49 @@
+﻿@model IEnumerable<IceCreamProject.Models.IceCreamFlavor>
+
+@{
+    ViewData["Title"] = "Index";
+    //Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+@*<h1>Flavors</h1>*@
+
+@*<p>
+    <a asp-action="Create">Add New Flavor</a>
+</p>*@
+
+<section class="our_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                <span>
+                    Our ice cream
+                </span>
+            </h2>
+        </div>
+        <div class="our_container">
+            @foreach (var item in Model)
+            {
+                <div class="box">
+                    <div class="img-box">
+                        <img src="
+                     @Html.DisplayFor(modelItem => item.ImagePath)"/>
+                    </div>
+                    <div class="detail-box">
+                        <h5>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </h5>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </p>
+                        @*<p>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </p>*@
+                        @*<a href="">*@                         
+                        @*</a>*@
+                    </div>
+                </div>
+            }
+            </div>
+    </div>
+</section>
+
