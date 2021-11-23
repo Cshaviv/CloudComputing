@@ -8,27 +8,35 @@ using Microsoft.EntityFrameworkCore;
 using IceCreamProject.Models;
 using System.Net;
 using Firebase.Storage;
-
+using IceCreamProject.Data;
+using System.Data.Entity;
 
 namespace IceCreamProject.Controllers
 {
     public class IceCreamFlavorsController : Controller
     {
-        private readonly IceCreamFlavorsContext _context;
-
-        public IceCreamFlavorsController(IceCreamFlavorsContext context)
-        {
-            _context = context;
-        }
+       // private readonly IceCreamFlavorsContext _context;
+        IceCreamContext context = new IceCreamContext();
+        //public IceCreamFlavorsController(IceCreamFlavorsContext context)
+        //{
+        //    _context = context;
+        //    //var context1 = new IceCreamContext();
+        //    //foreach(var item in context.IceCreamFlavor)
+        //    //{
+        //    //    context1.IceCreamFlavors.Add(item);
+        //    //    context1.SaveChanges();
+        //    //}
+        //}
 
         // GET: IceCreamFlavors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.IceCreamFlavor.ToListAsync());
+            return View(await context.IceCreamFlavors.ToListAsync());
+
         }
         public async Task<IActionResult> IndexManager()
         {
-            return View(await _context.IceCreamFlavor.ToListAsync());
+            return View(await context.IceCreamFlavors.ToListAsync());
         }
 
         // GET: IceCreamFlavors/Details/5
@@ -39,7 +47,7 @@ namespace IceCreamProject.Controllers
                 return NotFound();
             }
 
-            var iceCreamFlavor = await _context.IceCreamFlavor
+            var iceCreamFlavor = await context.IceCreamFlavors
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (iceCreamFlavor == null)
             {
@@ -73,8 +81,8 @@ namespace IceCreamProject.Controllers
                     if(result[i]== "ice cream")
                     {
                         firebaseImgAsync(iceCreamFlavor.ImagePath, iceCreamFlavor.Name);
-                        _context.Add(iceCreamFlavor);
-                        await _context.SaveChangesAsync();
+                        context.IceCreamFlavors.Add(iceCreamFlavor);
+                        await context.SaveChangesAsync();
                         return RedirectToAction(nameof(IndexManager));
                     }                       
                 }              
@@ -90,7 +98,7 @@ namespace IceCreamProject.Controllers
                 return NotFound();
             }
 
-            var iceCreamFlavor = await _context.IceCreamFlavor.FindAsync(id);
+            var iceCreamFlavor = await context.IceCreamFlavors.FindAsync(id);
             if (iceCreamFlavor == null)
             {
                 return NotFound();
@@ -114,8 +122,10 @@ namespace IceCreamProject.Controllers
             {
                 try
                 {
-                    _context.Update(iceCreamFlavor);
-                    await _context.SaveChangesAsync();
+                    //context.IceCreamFlavors.r()
+                    context.Entry(iceCreamFlavor).State = System.Data.Entity.EntityState.Modified;
+                    //context.IceCreamFlavors.Update(iceCreamFlavor);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -141,7 +151,7 @@ namespace IceCreamProject.Controllers
                 return NotFound();
             }
 
-            var iceCreamFlavor = await _context.IceCreamFlavor
+            var iceCreamFlavor = await context.IceCreamFlavors
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (iceCreamFlavor == null)
             {
@@ -156,15 +166,15 @@ namespace IceCreamProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var iceCreamFlavor = await _context.IceCreamFlavor.FindAsync(id);
-            _context.IceCreamFlavor.Remove(iceCreamFlavor);
-            await _context.SaveChangesAsync();
+            var iceCreamFlavor = await context.IceCreamFlavors.FindAsync(id);
+            context.IceCreamFlavors.Remove(iceCreamFlavor);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(IndexManager));
         }
 
         private bool IceCreamFlavorExists(int id)
         {
-            return _context.IceCreamFlavor.Any(e => e.Id == id);
+            return context.IceCreamFlavors.Any(e => e.Id == id);
         }
 
         public async void firebaseImgAsync(string webUrl, string name)

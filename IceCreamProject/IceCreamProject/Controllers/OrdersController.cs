@@ -13,35 +13,37 @@ namespace IceCreamProject.Controllers
 
     public class OrdersController : Controller
     {
-        private readonly OrdersContext _context;
-        private readonly IceCreamFlavorsContext _context2;
-       // private readonly IceCreamContext _context3;
-        
-        public OrdersController(OrdersContext context,IceCreamFlavorsContext context2)
-        {
-            var _context3 = new IceCreamContext();
-            _context = context;
-            _context2 = context2;
-            _context3.Orders.Add(new Orders());
-            _context3.SaveChangesAsync();
-        }
+       // private readonly OrdersContext _context;
+       // private readonly IceCreamFlavorsContext _context2;
+        // private readonly IceCreamContext _context3;
+        IceCreamContext context = new IceCreamContext();
+        //public OrdersController(OrdersContext context,IceCreamFlavorsContext context2)
+        //{
+            
+        //    _context = context;
+        //    _context2 = context2;
+        //    var _context3 = new IceCreamContext();
+        //    _context3.Orders.Add(new Orders());
+        //    _context3.SaveChangesAsync();
+        //}
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Orders.ToListAsync());
+            return View(context.Orders.ToList());
+            //return View(await context.Orders.ToListAsync());
         }
 
         // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var orders = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var orders = context.Orders
+                .FirstOrDefault(m => m.Id == id);
             if (orders == null)
             {
                 return NotFound();
@@ -53,7 +55,7 @@ namespace IceCreamProject.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewBag.Message = _context2.IceCreamFlavor.ToList();
+            ViewBag.Message = context.IceCreamFlavors.ToList();
             return View();
         }
 
@@ -66,30 +68,36 @@ namespace IceCreamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool flag = checkStreet(orders.City, orders.Street);
-                if (flag)
+
+                //AddressChecking addressChecking = new AddressChecking();
+                ////Boolean result = addressChecking.CheckAddress(City, Street);
+                ////bool flag = checkStreet(orders.City, orders.Street);
+                //if (addressChecking.CheckAddress(orders.City,orders.Street))
+                //{
+                //    orders.Date = DateTime.Now;
+                //    if (orders.Date.Month >= 12 && orders.Date.Month < 3)
+                //        orders.Season = "Winter";
+                //    if (orders.Date.Month >= 3 && orders.Date.Month < 6)
+                //        orders.Season = "Spring";
+                //    if (orders.Date.Month >= 6 && orders.Date.Month < 9)
+                //        orders.Season = "Summer";
+                //    if (orders.Date.Month >= 9 && orders.Date.Month < 12)
+                //        orders.Season = "Fall";
+                //    WeatherClass weather = new WeatherClass();
+                //    Main result = weather.CheckWeather(orders.City);
+                //    orders.Pressure = result.pressure;
+                //    orders.Humidity = result.humidity;
+                //    orders.Temperature = (float)result.temp;
+                var OrderCheck = new OrdersCheck();
+                if (OrderCheck.Check(orders)!= null)
                 {
-                    orders.Date = DateTime.Now;
-                    if (orders.Date.Month >= 12 && orders.Date.Month < 3)
-                        orders.Season = "Winter";
-                    if (orders.Date.Month >= 3 && orders.Date.Month < 6)
-                        orders.Season = "Spring";
-                    if (orders.Date.Month >= 6 && orders.Date.Month < 9)
-                        orders.Season = "Summer";
-                    if (orders.Date.Month >= 9 && orders.Date.Month < 12)
-                        orders.Season = "Fall";
-                    WeatherClass weather = new WeatherClass();
-                    Main result = weather.CheckWeather(orders.City);
-                    orders.Pressure = result.pressure;
-                    orders.Humidity = result.humidity;
-                    orders.Temperature = (float)result.temp;
-                    _context.Add(orders);
-                    await _context.SaveChangesAsync();
+                    context.Orders.Add(orders);
+                    await context.SaveChangesAsync();
                     return View("~/Views/Orders/Successful.cshtml");
-                }
+                }           
                 else //-להודיע על שגיאה
                 {
-                    ViewBag.Message = _context2.IceCreamFlavor.ToList();//for combo box of flavors in the window
+                    ViewBag.Message = context.IceCreamFlavors.ToList();//for combo box of flavors in the window
                     ViewBag.Data = string.Format("The address is not correct");
                     return View();
                 }
@@ -104,15 +112,16 @@ namespace IceCreamProject.Controllers
             //}
 
         }
-        public bool checkStreet(string City, string Street)
-        {
-            AddressChecking addressChecking = new AddressChecking();
-            Boolean result = addressChecking.CheckAddress(City, Street);
-            if (result)
-                return true;
-            else
-                return false;
-        }
+        //public bool checkStreet(string City, string Street)
+        //{
+        //    AddressChecking addressChecking = new AddressChecking();
+        //    Boolean result = addressChecking.CheckAddress(City, Street);
+        //    if (result)
+        //        return true;
+        //    else
+        //        return false;
+        //}
+
         // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -121,7 +130,7 @@ namespace IceCreamProject.Controllers
                 return NotFound();
             }
 
-            var orders = await _context.Orders.FindAsync(id);
+            var orders = await context.Orders.FindAsync(id);
             if (orders == null)
             {
                 return NotFound();
@@ -145,8 +154,9 @@ namespace IceCreamProject.Controllers
             {
                 try
                 {
-                    _context.Update(orders);
-                    await _context.SaveChangesAsync();
+                    context.Entry(orders).State = System.Data.Entity.EntityState.Modified;
+                   // _context.Update(orders);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -165,15 +175,15 @@ namespace IceCreamProject.Controllers
         }
 
         // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var orders = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var orders = context.Orders
+                .FirstOrDefault(m => m.Id == id);
             if (orders == null)
             {
                 return NotFound();
@@ -185,17 +195,17 @@ namespace IceCreamProject.Controllers
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var orders = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(orders);
-            await _context.SaveChangesAsync();
+            var orders = context.Orders.Find(id);
+            context.Orders.Remove(orders);
+            context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrdersExists(int id)
         {
-            return _context.Orders.Any(e => e.Id == id);
+            return context.Orders.Any(e => e.Id == id);
         }
         public IActionResult Successful()
         {        
@@ -209,7 +219,7 @@ namespace IceCreamProject.Controllers
             {
                 Temperature t = new Temperature { Id = counter++, Day = i.Day, Month = i.Month, TempValue = 0 };
 
-                foreach (var item in _context.Orders)
+                foreach (var item in context.Orders)
                 {
                     if (item.Date.Day == i.Day && item.Date.Month == i.Month)
                         t.TempValue++;//the number of orders in this date

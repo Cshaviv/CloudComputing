@@ -15,8 +15,10 @@
 
 
 </head>
-<body onload="Show()">
 
+<body onload="Show()">
+    <h1>number of orders according to date</h1>
+    <br />
     @{
         string values = string.Empty;
     }
@@ -25,7 +27,7 @@
         var val = item.TempValue;
         var val2 = item.Day;
         var val3 = item.Month;
-        values += "{y:" + val + ",label:"+val2+"."+val3+"},";
+        values += "{y:" + val + ",label:" + val2 + "." + val3 + "},";
 
 
     }
@@ -66,5 +68,5 @@
 
         }
     </script>
- </body>
+</body>
 </html>

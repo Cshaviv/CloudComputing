@@ -1,16 +1,20 @@
 {
-  "dependencies": {
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "IceCreamFlavorsContext"
-    },
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "OrdersContext"
-    },
-    "mssql3": {
-      "type": "mssql",
-      "connectionId": "ManagersContext"
+    "dependencies": {
+        "mssql1": {
+            "type": "mssql",
+            "connectionId": "IceCreamFlavorsContext"
+        },
+        "mssql2": {
+            "type": "mssql",
+            "connectionId": "OrdersContext"
+        },
+        "mssql3": {
+            "type": "mssql",
+            "connectionId": "ManagersContext"
+        },
+        "mssql4": {
+            "type": "mssql",
+            "connectionId": "IceCreamContext"
+        }
     }
-  }
 }

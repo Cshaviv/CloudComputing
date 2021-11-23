@@ -1,5 +1,5 @@
 ﻿body {
-    background-image: url('/images/pro3-removebg-preview.png');
+    background-image: url('/images/pro6-removebg-preview.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -11,10 +11,7 @@
     margin-left: auto;
     margin-right: auto;
 }
-.homeUser_text{
+
+.homeUser_text {
     font-size: 200px;
-   
-
 }
-
-

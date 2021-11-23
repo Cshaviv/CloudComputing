@@ -6,34 +6,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IceCreamProject.Models;
+using IceCreamProject.Data;
 
 namespace IceCreamProject.Controllers
 {
     public class ManagersController : Controller
     {
-        private readonly ManagersContext _context;
+        IceCreamContext context = new IceCreamContext();
+        //private readonly ManagersContext _context;
 
-        public ManagersController(ManagersContext context)
-        {
-            _context = context;
-        }
+        // public ManagersController(ManagersContext context)
+        //{
+        //    _context = context;
+        //}
 
         // GET: Managers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Manager.ToListAsync());
+            return View(context.Managers.ToList());
         }
 
         // GET: Managers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var manager = await _context.Manager
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var manager = context.Managers
+                .FirstOrDefault(m => m.Id == id);
             if (manager == null)
             {
                 return NotFound();
@@ -57,8 +59,8 @@ namespace IceCreamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(manager);
-                await _context.SaveChangesAsync();
+                context.Managers.Add(manager);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(manager);
@@ -72,7 +74,7 @@ namespace IceCreamProject.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Manager.FindAsync(id);
+            var manager = await context.Managers.FindAsync(id);
             if (manager == null)
             {
                 return NotFound();
@@ -96,8 +98,8 @@ namespace IceCreamProject.Controllers
             {
                 try
                 {
-                    _context.Update(manager);
-                    await _context.SaveChangesAsync();
+                    context.Entry(manager).State = System.Data.Entity.EntityState.Modified;
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,15 +118,15 @@ namespace IceCreamProject.Controllers
         }
 
         // GET: Managers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var manager = await _context.Manager
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var manager = context.Managers
+                .FirstOrDefault(m => m.Id == id);
             if (manager == null)
             {
                 return NotFound();
@@ -136,17 +138,17 @@ namespace IceCreamProject.Controllers
         // POST: Managers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var manager = await _context.Manager.FindAsync(id);
-            _context.Manager.Remove(manager);
-            await _context.SaveChangesAsync();
+            var manager =context.Managers.Find(id);
+            context.Managers.Remove(manager);
+            context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ManagerExists(int id)
         {
-            return _context.Manager.Any(e => e.Id == id);
+            return context.Managers.Any(e => e.Id == id);
         }
         public IActionResult LogIn()
         {
@@ -163,7 +165,7 @@ namespace IceCreamProject.Controllers
             bool flag = false;
             if (ModelState.IsValid)
             {
-                foreach (var manager in _context.Manager)
+                foreach (var manager in context.Managers)
                 {
                     if (manager.Email == manager.Email && manager.Password == manager.Password)
                     {
