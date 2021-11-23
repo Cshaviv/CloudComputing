@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IceCreamProject.Models
+namespace IceCreamProject
 {
     public class Tag2
     {

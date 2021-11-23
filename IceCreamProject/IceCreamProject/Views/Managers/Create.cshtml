@@ -2,13 +2,20 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout2.cshtml"; 
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
-
-<h1>Create</h1>
-
-<h4>Manager</h4>
-<hr />
+<link rel="stylesheet" type="text/css" href="~/css/Manager.css" />
+<section class="blog_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                <span>
+                    Create A New Manager
+                </span>
+            </h2>
+        </div>
+    </div>
+</section>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -31,7 +38,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" style="font-size: 25px; color:#ad927e"><b>Back to List</b></a>
 </div>
 
 @section Scripts {

@@ -4,11 +4,21 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Manager.css" />
+</head>
 
-<h1>Edit</h1>
-
-<h4>Orders</h4>
-<hr />
+<section class="blog_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                <span>
+                    Edit
+                </span>
+            </h2>
+        </div>
+    </div>
+</section>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -75,14 +85,14 @@
                 <span asp-validation-for="Pressure" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" style="background-color: #ad927e" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" style="font-size: 25px; color:#ad927e"><b>Back to List</b></a>
 </div>
 
 @section Scripts {

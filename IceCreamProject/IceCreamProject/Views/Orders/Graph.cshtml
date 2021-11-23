@@ -1,15 +1,9 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Graph";
     Layout = "~/Views/Shared/_Layout2.cshtml";
-
-    //if (StaticFields.IsUser)
-    //    Layout = "~/Views/Shared/_Layout2.cshtml";
-    //else
-    //    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/Home.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/Manager.css" />
 </head>
 
 <section class="contact_section layout_padding">
@@ -23,21 +17,12 @@
                 </h2>
             </div>
         </div>
-
-
-
-
-        @*<head>
-                <meta charset="utf-8" />
-                <title></title>
-            </head>*@
-
     </div>
 </section>
 <h4>Fill date start and date end</h4>
 <form action="ShowGraph" method="get">
     <input type="date" name="date1" />
     <input type="date" name="date2" />
-    <input type="submit" value="חפש" />
+    <input type="submit" value="Search" style="background-color: #ad927e" class="btn btn-primary" />
 </form>
 

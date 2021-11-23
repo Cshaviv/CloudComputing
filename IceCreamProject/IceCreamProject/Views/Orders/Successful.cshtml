@@ -2,11 +2,28 @@
 @{
     ViewData["Title"] = "Successful";
 }
+<link rel="stylesheet" type="text/css" href="~/css/Home.css" />
 
-<h1>Your order completed successfully</h1>
-<h2>Thank you for choosing Joice</h2>
+<section class="blog_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                <span>
+                    Successful
+                </span>
+            </h2>
+        </div>
+        <p style="font-size: 25px">
+            <b>
+                Your order completed successfully. <br />
+                Thank you for choosing Joice!!
+
+            </b>
+        </p>
+    </div>
+</section>
 <div>
-    <a asp-action="Create">I Want To Make Another Order</a>
+    <a asp-action="Create" style="font-size: 25px; color:#ad927e"> <b>I Want To Make Another Order</b></a>
 </div>
 
 

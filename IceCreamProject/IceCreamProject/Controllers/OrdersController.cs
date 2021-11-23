@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IceCreamProject.Models;
+using IceCreamProject.Data;
+
 namespace IceCreamProject.Controllers
 {
 
@@ -13,12 +15,15 @@ namespace IceCreamProject.Controllers
     {
         private readonly OrdersContext _context;
         private readonly IceCreamFlavorsContext _context2;
-
+       // private readonly IceCreamContext _context3;
+        
         public OrdersController(OrdersContext context,IceCreamFlavorsContext context2)
         {
-            
+            var _context3 = new IceCreamContext();
             _context = context;
             _context2 = context2;
+            _context3.Orders.Add(new Orders());
+            _context3.SaveChangesAsync();
         }
 
         // GET: Orders
@@ -60,29 +65,54 @@ namespace IceCreamProject.Controllers
         public async Task<IActionResult> Create([Bind("Id,UserName,PhoneNumber,Email,City,Street,HouseNumber,Flavor,Season,Temperature,Date,Humidity,Pressure")] Orders orders)
         {
             if (ModelState.IsValid)
-            { //להוסיף תקינות רחוב
-                orders.Date = DateTime.Now;
-                if (orders.Date.Month >= 12 && orders.Date.Month < 3)
-                    orders.Season = "Winter";
-                if (orders.Date.Month >= 3 && orders.Date.Month < 6)
-                    orders.Season = "Spring";
-                if (orders.Date.Month >= 6 && orders.Date.Month < 9)
-                    orders.Season = "Summer";
-                if (orders.Date.Month >= 9 && orders.Date.Month < 12)
-                    orders.Season = "Fall";
-                WeatherClass weather = new WeatherClass();
-                Main result = weather.CheckWeather(orders.City);
-                orders.Pressure = result.pressure;
-                orders.Humidity = result.humidity;
-                orders.Temperature = (float)result.temp;
-               
-                _context.Add(orders);
-                await _context.SaveChangesAsync();
-                return View("~/Views/Orders/Successful.cshtml");
+            {
+                bool flag = checkStreet(orders.City, orders.Street);
+                if (flag)
+                {
+                    orders.Date = DateTime.Now;
+                    if (orders.Date.Month >= 12 && orders.Date.Month < 3)
+                        orders.Season = "Winter";
+                    if (orders.Date.Month >= 3 && orders.Date.Month < 6)
+                        orders.Season = "Spring";
+                    if (orders.Date.Month >= 6 && orders.Date.Month < 9)
+                        orders.Season = "Summer";
+                    if (orders.Date.Month >= 9 && orders.Date.Month < 12)
+                        orders.Season = "Fall";
+                    WeatherClass weather = new WeatherClass();
+                    Main result = weather.CheckWeather(orders.City);
+                    orders.Pressure = result.pressure;
+                    orders.Humidity = result.humidity;
+                    orders.Temperature = (float)result.temp;
+                    _context.Add(orders);
+                    await _context.SaveChangesAsync();
+                    return View("~/Views/Orders/Successful.cshtml");
+                }
+                else //-להודיע על שגיאה
+                {
+                    ViewBag.Message = _context2.IceCreamFlavor.ToList();//for combo box of flavors in the window
+                    ViewBag.Data = string.Format("The address is not correct");
+                    return View();
+                }
+
             }
             return View(orders);
-        }
+            //catch (Exception ex)
+            //{
+            //    ViewBag.TitlePopUp = "Error";
+            //    ViewBag.Message = ex.Message;
+            //    return View(orders);
+            //}
 
+        }
+        public bool checkStreet(string City, string Street)
+        {
+            AddressChecking addressChecking = new AddressChecking();
+            Boolean result = addressChecking.CheckAddress(City, Street);
+            if (result)
+                return true;
+            else
+                return false;
+        }
         // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

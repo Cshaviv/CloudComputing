@@ -169,7 +169,7 @@ namespace IceCreamProject.Controllers
                     {
                         ViewBag.text = "true";
                         flag = true;
-                        return View("~/Views/Managers/Create.cshtml", managers);   // לשנות ליוזר הום שלי איך שאקרא לו 
+                        return View("~/Views/Managers/Welocome.cshtml", managers);   
                     }
                 }
                 if (flag == false)
@@ -198,6 +198,11 @@ namespace IceCreamProject.Controllers
         public IActionResult LogOut()
         {            
             return View("~/Views/Home/Index.cshtml");
+        }
+
+        public IActionResult Welocome()
+        {
+            return View();
         }
 
     }

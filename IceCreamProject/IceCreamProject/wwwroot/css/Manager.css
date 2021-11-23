@@ -1,9 +1,9 @@
 ﻿body {
-    background-image: url('/images/pro3.jpg');
+    background-image: url('/images/pro4.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    opacity: 25;
+    opacity:25;
 }
 
 .center {
@@ -11,10 +11,7 @@
     margin-left: auto;
     margin-right: auto;
 }
-.homeUser_text{
+
+.homeUser_text {
     font-size: 200px;
-   
-
 }
-
-

@@ -6,13 +6,20 @@
 }
 
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/Home.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/Manager.css" />
 </head>
-
-<h1>Details</h1>
-
+<section class="blog_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                <span>
+                    Details
+                </span>
+            </h2>
+        </div>
+    </div>
+</section>
 <div>
-    <h4>IceCreamFlavor</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -37,6 +44,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="IndexManager">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" style="font-size: 25px; color:#ad927e"><b>Edit</b></a> |
+    <a asp-action="IndexManager" style="font-size: 25px; color:#ad927e"><b>Back to List</b></a>
 </div>
